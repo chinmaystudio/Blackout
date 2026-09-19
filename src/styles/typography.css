@@ -1,0 +1,186 @@
+/* ═══════════════════════════════════════════════════
+   BLACKOUT — Typography
+   Industrial · Condensed · Cinematic
+   ═══════════════════════════════════════════════════ */
+
+@import url('https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Oswald:wght@400;500;600;700&family=Barlow+Condensed:wght@300;400;500;600;700&family=Share+Tech+Mono&display=swap');
+
+/* ── Font Families ── */
+:root {
+  --font-title: 'Bebas Neue', 'Impact', sans-serif;
+  --font-heading: 'Oswald', 'Impact', sans-serif;
+  --font-body: 'Barlow Condensed', 'Arial Narrow', sans-serif;
+  --font-mono: 'Share Tech Mono', 'Courier New', monospace;
+}
+
+/* ── Base Typography ── */
+body {
+  font-family: var(--font-body);
+  font-weight: 400;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  line-height: 1.4;
+}
+
+/* ── Title — BLACKOUT ── */
+.title-blackout {
+  font-family: var(--font-title);
+  font-size: clamp(4rem, 15vw, 12rem);
+  font-weight: 400;
+  letter-spacing: 0.08em;
+  line-height: 0.9;
+  color: var(--text-primary);
+  text-transform: uppercase;
+  position: relative;
+  display: inline-block;
+}
+
+.title-blackout .radiation-o {
+  position: relative;
+  display: inline-block;
+}
+
+.title-blackout .radiation-o::after {
+  content: '☢';
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  font-size: 0.55em;
+  color: var(--yellow);
+  filter: drop-shadow(0 0 8px var(--yellow-dim));
+  z-index: 2;
+}
+
+/* ── GDGC Presents ── */
+.text-gdgc {
+  font-family: var(--font-heading);
+  font-size: clamp(1rem, 3vw, 2rem);
+  font-weight: 600;
+  letter-spacing: 0.35em;
+  color: var(--text-primary);
+  opacity: 0.9;
+}
+
+.text-presents {
+  font-family: var(--font-heading);
+  font-size: clamp(0.7rem, 1.5vw, 1rem);
+  font-weight: 400;
+  letter-spacing: 0.6em;
+  color: var(--text-muted);
+}
+
+/* ── Tagline ── */
+.text-tagline {
+  font-family: var(--font-body);
+  font-size: clamp(0.65rem, 1.2vw, 0.9rem);
+  font-weight: 300;
+  letter-spacing: 0.25em;
+  color: var(--text-secondary);
+  margin-top: 2rem;
+}
+
+/* ── Scene Number ── */
+.scene-number {
+  font-family: var(--font-mono);
+  font-size: clamp(0.6rem, 1vw, 0.75rem);
+  letter-spacing: 0.3em;
+  color: var(--yellow-aged);
+  opacity: 0.7;
+}
+
+/* ── Timestamp ── */
+.timestamp {
+  font-family: var(--font-mono);
+  font-size: clamp(0.8rem, 1.5vw, 1.1rem);
+  letter-spacing: 0.15em;
+  color: var(--yellow);
+  text-shadow: 0 0 20px var(--yellow-dim);
+}
+
+/* ── Scene Title ── */
+.scene-title {
+  font-family: var(--font-heading);
+  font-size: clamp(1.2rem, 3vw, 2.2rem);
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  line-height: 1.1;
+  color: var(--text-primary);
+}
+
+/* ── Headline (Big Impact Text) ── */
+.headline {
+  font-family: var(--font-heading);
+  font-size: clamp(1.8rem, 5vw, 4rem);
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  line-height: 1;
+  color: var(--text-primary);
+}
+
+/* ── Body Text ── */
+.body-text {
+  font-family: var(--font-body);
+  font-size: clamp(0.75rem, 1.3vw, 1rem);
+  font-weight: 400;
+  letter-spacing: 0.12em;
+  line-height: 1.6;
+  color: var(--text-muted);
+}
+
+/* ── Quote Text ── */
+.quote-text {
+  font-family: var(--font-heading);
+  font-size: clamp(1.5rem, 4vw, 3.5rem);
+  font-weight: 600;
+  letter-spacing: 0.06em;
+  line-height: 1.1;
+  color: var(--text-primary);
+}
+
+/* ── Emergency Text ── */
+.emergency-text {
+  font-family: var(--font-heading);
+  font-size: clamp(1.8rem, 5vw, 4rem);
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  line-height: 1;
+  color: var(--red-emergency);
+  text-shadow:
+    0 0 20px rgba(255, 59, 48, 0.5),
+    0 0 60px rgba(255, 59, 48, 0.2);
+  animation: emergencyFlicker 3s infinite;
+}
+
+/* ── Terminal Text ── */
+.terminal-text {
+  font-family: var(--font-mono);
+  font-size: clamp(0.7rem, 1.2vw, 0.9rem);
+  letter-spacing: 0.08em;
+  line-height: 1.8;
+  color: var(--terminal-green);
+  text-shadow: 0 0 8px var(--terminal-dim);
+}
+
+.terminal-text.amber {
+  color: var(--terminal-amber);
+  text-shadow: 0 0 8px rgba(255, 184, 0, 0.15);
+}
+
+/* ── Archive Label ── */
+.label-text {
+  font-family: var(--font-mono);
+  font-size: 0.6rem;
+  letter-spacing: 0.2em;
+  color: var(--text-secondary);
+  opacity: 0.6;
+}
+
+/* ── Signal Lost ── */
+.signal-lost {
+  font-family: var(--font-mono);
+  font-size: clamp(0.7rem, 1.2vw, 0.85rem);
+  letter-spacing: 0.4em;
+  color: var(--red);
+  animation: flicker 2s infinite;
+}

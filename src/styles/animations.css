@@ -1,0 +1,192 @@
+/* ═══════════════════════════════════════════════════
+   BLACKOUT — Animations
+   Film grain · Glitch · Flicker · Scanlines
+   ═══════════════════════════════════════════════════ */
+
+/* ── Film Grain ── */
+@keyframes grain {
+  0%, 100% { transform: translate(0, 0); }
+  10% { transform: translate(-5%, -10%); }
+  20% { transform: translate(-15%, 5%); }
+  30% { transform: translate(7%, -25%); }
+  40% { transform: translate(-5%, 25%); }
+  50% { transform: translate(-15%, 10%); }
+  60% { transform: translate(15%, 0%); }
+  70% { transform: translate(0%, 15%); }
+  80% { transform: translate(3%, 35%); }
+  90% { transform: translate(-10%, 10%); }
+}
+
+/* ── Flicker ── */
+@keyframes flicker {
+  0%, 100% { opacity: 1; }
+  5% { opacity: 0.85; }
+  10% { opacity: 1; }
+  15% { opacity: 0.4; }
+  20% { opacity: 1; }
+  55% { opacity: 1; }
+  57% { opacity: 0.7; }
+  60% { opacity: 1; }
+  87% { opacity: 1; }
+  90% { opacity: 0.6; }
+  92% { opacity: 1; }
+}
+
+/* ── Emergency Flicker ── */
+@keyframes emergencyFlicker {
+  0%, 100% { opacity: 1; text-shadow: 0 0 20px rgba(255,59,48,0.5), 0 0 60px rgba(255,59,48,0.2); }
+  3% { opacity: 0.7; }
+  6% { opacity: 1; }
+  8% { opacity: 0.3; }
+  10% { opacity: 1; }
+  50% { opacity: 1; }
+  52% { opacity: 0.8; text-shadow: 0 0 40px rgba(255,59,48,0.8), 0 0 80px rgba(255,59,48,0.4); }
+  54% { opacity: 1; }
+  80% { opacity: 1; }
+  82% { opacity: 0.6; }
+  84% { opacity: 1; }
+}
+
+/* ── Glitch ── */
+@keyframes glitch-1 {
+  0%, 100% {
+    clip-path: inset(0 0 0 0);
+    transform: translate(0);
+  }
+  20% {
+    clip-path: inset(20% 0 60% 0);
+    transform: translate(-4px, 2px);
+  }
+  40% {
+    clip-path: inset(50% 0 20% 0);
+    transform: translate(4px, -1px);
+  }
+  60% {
+    clip-path: inset(10% 0 70% 0);
+    transform: translate(-2px, 1px);
+  }
+  80% {
+    clip-path: inset(70% 0 5% 0);
+    transform: translate(3px, -2px);
+  }
+}
+
+@keyframes glitch-2 {
+  0%, 100% {
+    clip-path: inset(0 0 0 0);
+    transform: translate(0);
+  }
+  20% {
+    clip-path: inset(60% 0 10% 0);
+    transform: translate(3px, -1px);
+  }
+  40% {
+    clip-path: inset(30% 0 40% 0);
+    transform: translate(-3px, 2px);
+  }
+  60% {
+    clip-path: inset(80% 0 0 0);
+    transform: translate(2px, 1px);
+  }
+  80% {
+    clip-path: inset(5% 0 80% 0);
+    transform: translate(-4px, -1px);
+  }
+}
+
+/* ── Scanline ── */
+@keyframes scanline {
+  0% { transform: translateY(-100%); }
+  100% { transform: translateY(100vh); }
+}
+
+/* ── Blink (Terminal Cursor) ── */
+@keyframes blink {
+  0%, 50% { opacity: 1; }
+  51%, 100% { opacity: 0; }
+}
+
+/* ── Camera Shake ── */
+@keyframes shake {
+  0%, 100% { transform: translate(0, 0) rotate(0); }
+  10% { transform: translate(-3px, 2px) rotate(-0.3deg); }
+  20% { transform: translate(4px, -2px) rotate(0.3deg); }
+  30% { transform: translate(-2px, 4px) rotate(-0.2deg); }
+  40% { transform: translate(3px, -3px) rotate(0.4deg); }
+  50% { transform: translate(-4px, 1px) rotate(-0.1deg); }
+  60% { transform: translate(2px, -4px) rotate(0.3deg); }
+  70% { transform: translate(-3px, 3px) rotate(-0.3deg); }
+  80% { transform: translate(4px, 2px) rotate(0.2deg); }
+  90% { transform: translate(-2px, -3px) rotate(-0.4deg); }
+}
+
+/* ── Dust Particle Drift ── */
+@keyframes dust {
+  0% {
+    transform: translateY(0) translateX(0);
+    opacity: 0;
+  }
+  20% { opacity: 0.3; }
+  80% { opacity: 0.15; }
+  100% {
+    transform: translateY(-120vh) translateX(30px);
+    opacity: 0;
+  }
+}
+
+/* ── Signal Bars Flicker ── */
+@keyframes signalBars {
+  0%, 100% { opacity: 1; }
+  10% { opacity: 0.2; }
+  15% { opacity: 0.8; }
+  30% { opacity: 0; }
+  35% { opacity: 0.6; }
+  50% { opacity: 1; }
+  70% { opacity: 0.3; }
+  75% { opacity: 0.9; }
+}
+
+/* ── White Flash ── */
+@keyframes whiteFlash {
+  0% { opacity: 0; }
+  15% { opacity: 0.9; }
+  30% { opacity: 0.4; }
+  50% { opacity: 0.7; }
+  100% { opacity: 0; }
+}
+
+/* ── Pulse Glow ── */
+@keyframes pulseGlow {
+  0%, 100% {
+    box-shadow: 0 0 4px var(--yellow-dim);
+  }
+  50% {
+    box-shadow: 0 0 12px var(--yellow), 0 0 30px var(--yellow-dim);
+  }
+}
+
+/* ── Letter Spacing Reveal ── */
+@keyframes letterSpacingReveal {
+  0% {
+    letter-spacing: 1.5em;
+    opacity: 0;
+  }
+  100% {
+    letter-spacing: 0.6em;
+    opacity: 1;
+  }
+}
+
+/* ── Text Line Reveal (used as utility) ── */
+.line-reveal {
+  opacity: 0;
+  transform: translateY(30px);
+  filter: blur(8px);
+}
+
+.line-reveal.visible {
+  opacity: 1;
+  transform: translateY(0);
+  filter: blur(0);
+  transition: all 0.8s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+}
