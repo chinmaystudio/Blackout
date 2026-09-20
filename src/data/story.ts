@@ -12,6 +12,7 @@ export interface StoryLine {
 
 export interface StoryImage {
   src: string;
+  videoSrc?: string;
   alt: string;
   timestamp?: string;
   headline: string;
@@ -121,7 +122,8 @@ export const scenes: StoryScene[] = [
       },
       {
         src: '/assets/scene3/scene3-1.png',
-        alt: 'The sky turns white — blinding light over the city skyline',
+        videoSrc: '/video/nuclear_blast.mp4',
+        alt: 'The sky turns white — nuclear blast mushroom cloud rising over the city skyline',
         timestamp: '11:59 PM',
         headline: 'THE SKY TURNS WHITE.',
         bodyLines: [

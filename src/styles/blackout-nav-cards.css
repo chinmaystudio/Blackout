@@ -1,0 +1,417 @@
+/* ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+   SCOPED STYLES: BLACKOUT RECOVERED VAULT TERMINAL CARDS
+   Exact Visual Style from User Reference Design
+   ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ */
+
+.blackout-nav-cards {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 1.5rem;
+  width: 100%;
+  max-width: 1020px;
+  margin: 2.2rem auto 0 auto;
+  box-sizing: border-box;
+  user-select: none;
+  z-index: 10;
+}
+
+@media (max-width: 860px) {
+  .blackout-nav-cards {
+    grid-template-columns: 1fr;
+    max-width: 360px;
+    gap: 1.5rem;
+    padding: 0 0.75rem;
+  }
+}
+
+/* Card Outer Chamfered Shell / Border Container */
+.blackout-nav-card-wrap {
+  position: relative;
+  background: rgba(245, 158, 11, 0.35);
+  padding: 1.5px;
+  clip-path: polygon(
+    14px 0,
+    calc(100% - 14px) 0,
+    100% 14px,
+    100% calc(100% - 14px),
+    calc(100% - 14px) 100%,
+    14px 100%,
+    0 calc(100% - 14px),
+    0 14px
+  );
+  transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+  box-sizing: border-box;
+}
+
+/* Specific Wrapper Tones */
+.blackout-nav-card-wrap--story {
+  background: rgba(245, 158, 11, 0.5);
+  filter: drop-shadow(0 0 15px rgba(245, 158, 11, 0.25));
+}
+
+.blackout-nav-card-wrap--story:hover,
+.blackout-nav-card-wrap--story:focus-within {
+  background: #f59e0b;
+  filter: drop-shadow(0 0 20px rgba(245, 158, 11, 0.65)) drop-shadow(0 0 40px rgba(245, 158, 11, 0.35));
+  transform: translateY(-4px);
+}
+
+.blackout-nav-card-wrap--details {
+  background: rgba(148, 163, 184, 0.35);
+  filter: drop-shadow(0 0 10px rgba(0, 0, 0, 0.6));
+}
+
+.blackout-nav-card-wrap--details:hover,
+.blackout-nav-card-wrap--details:focus-within {
+  background: #94a3b8;
+  filter: drop-shadow(0 0 18px rgba(148, 163, 184, 0.5)) drop-shadow(0 0 30px rgba(52, 211, 153, 0.2));
+  transform: translateY(-4px);
+}
+
+.blackout-nav-card-wrap--register {
+  background: rgba(245, 158, 11, 0.45);
+  filter: drop-shadow(0 0 12px rgba(245, 158, 11, 0.2));
+}
+
+.blackout-nav-card-wrap--register:hover,
+.blackout-nav-card-wrap--register:focus-within {
+  background: #f59e0b;
+  filter: drop-shadow(0 0 20px rgba(245, 158, 11, 0.6)) drop-shadow(0 0 35px rgba(245, 158, 11, 0.3));
+  transform: translateY(-4px);
+}
+
+/* Inner Card Body */
+.blackout-nav-card {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  min-height: 380px;
+  background: #090807;
+  clip-path: polygon(
+    13px 0,
+    calc(100% - 13px) 0,
+    100% 13px,
+    100% calc(100% - 13px),
+    calc(100% - 13px) 100%,
+    13px 100%,
+    0 calc(100% - 13px),
+    0 13px
+  );
+  padding: 0.9rem 0.95rem 0.85rem 0.95rem;
+  box-sizing: border-box;
+  text-align: left;
+  cursor: pointer;
+  border: none;
+  font-family: var(--font-mono, 'JetBrains Mono', 'Courier New', monospace);
+  color: #f3f4f6;
+  outline: none;
+  overflow: hidden;
+}
+
+/* Subdued Glint Shimmer across the whole card */
+.blackout-nav-card__glint {
+  position: absolute;
+  top: 0;
+  left: -140%;
+  width: 70%;
+  height: 100%;
+  background: linear-gradient(
+    90deg,
+    transparent,
+    rgba(255, 255, 255, 0.05),
+    transparent
+  );
+  transform: skewX(-20deg);
+  transition: left 0.7s ease;
+  pointer-events: none;
+  z-index: 5;
+}
+
+.blackout-nav-card-wrap:hover .blackout-nav-card__glint {
+  left: 140%;
+}
+
+/* Card Header: Top Left Icon + Top Right Label */
+.blackout-nav-card__header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 0.65rem;
+  font-size: 0.68rem;
+  font-weight: 700;
+  letter-spacing: 0.14em;
+  color: #d1d5db;
+  z-index: 2;
+}
+
+.blackout-nav-card__top-icon {
+  width: 22px;
+  height: 22px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 0.72rem;
+}
+
+.blackout-nav-card__top-icon--amber {
+  background: rgba(245, 158, 11, 0.15);
+  border: 1px solid rgba(245, 158, 11, 0.6);
+  color: #f59e0b;
+}
+
+.blackout-nav-card__top-icon--green {
+  background: rgba(52, 211, 153, 0.15);
+  border: 1px solid rgba(52, 211, 153, 0.6);
+  color: #34d399;
+}
+
+.blackout-nav-card__top-tag {
+  font-size: 0.68rem;
+  font-weight: 800;
+  letter-spacing: 0.18em;
+  color: #f3f4f6;
+  opacity: 0.85;
+}
+
+/* Card Artwork Display Window */
+.blackout-nav-card__art-window {
+  position: relative;
+  width: 100%;
+  height: 140px;
+  border-radius: 2px;
+  overflow: hidden;
+  background: #000;
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  margin-bottom: 0.85rem;
+  z-index: 2;
+}
+
+.blackout-nav-card__art-img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center;
+  display: block;
+  filter: contrast(1.05) brightness(0.95);
+  transition: transform 0.4s ease, filter 0.4s ease;
+}
+
+.blackout-nav-card-wrap:hover .blackout-nav-card__art-img {
+  transform: scale(1.04);
+  filter: contrast(1.1) brightness(1.05);
+}
+
+.blackout-nav-card__art-overlay {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    to bottom,
+    transparent 55%,
+    rgba(9, 8, 7, 0.85) 100%
+  );
+  pointer-events: none;
+}
+
+/* Card Lower Content */
+.blackout-nav-card__content {
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+  justify-content: space-between;
+  z-index: 2;
+}
+
+/* Section Tag / Sub-label */
+.blackout-nav-card__sub-badge {
+  display: flex;
+  align-items: center;
+  gap: 0.45rem;
+  font-size: 0.62rem;
+  font-weight: 800;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  margin-bottom: 0.4rem;
+}
+
+.blackout-nav-card__sub-badge--story {
+  color: #f59e0b;
+}
+
+.blackout-nav-card__sub-badge--details {
+  color: #34d399;
+}
+
+.blackout-nav-card__sub-badge--register {
+  color: #f59e0b;
+}
+
+.blackout-nav-card__dot {
+  width: 6px;
+  height: 6px;
+  display: inline-block;
+}
+
+.blackout-nav-card__dot--square {
+  background: #f59e0b;
+}
+
+.blackout-nav-card__dot--circle-green {
+  border-radius: 50%;
+  background: #34d399;
+  box-shadow: 0 0 6px #34d399;
+}
+
+.blackout-nav-card__dot--circle-amber {
+  border-radius: 50%;
+  background: #f59e0b;
+  box-shadow: 0 0 6px #f59e0b;
+}
+
+/* Main Headline */
+.blackout-nav-card__title {
+  font-family: var(--font-heading, 'Inter', sans-serif);
+  font-size: clamp(1.2rem, 1.4vw, 1.35rem);
+  font-weight: 900;
+  letter-spacing: 0.08em;
+  line-height: 1.15;
+  text-transform: uppercase;
+  color: #f3f4f6;
+  margin: 0 0 0.65rem 0;
+  transition: color 0.25s ease;
+}
+
+.blackout-nav-card-wrap:hover .blackout-nav-card__title {
+  color: #ffffff;
+  text-shadow: 0 0 12px rgba(245, 158, 11, 0.4);
+}
+
+/* Bottom Split: Supporting 3-line Text on Left, Circular Button on Right */
+.blackout-nav-card__action-row {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: 0.8rem;
+  margin-top: auto;
+  margin-bottom: 0.75rem;
+}
+
+.blackout-nav-card__support-lines {
+  display: flex;
+  flex-direction: column;
+  gap: 0.15rem;
+  font-size: 0.6rem;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  color: #9ca3af;
+  text-transform: uppercase;
+  line-height: 1.35;
+}
+
+/* Circular Reticle Arrow Button */
+.blackout-nav-card__circle-btn {
+  position: relative;
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  border: 1px solid rgba(255, 255, 255, 0.25);
+  background: rgba(255, 255, 255, 0.03);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.blackout-nav-card__circle-btn--amber {
+  border-color: rgba(245, 158, 11, 0.55);
+}
+
+.blackout-nav-card__circle-btn--steel {
+  border-color: rgba(148, 163, 184, 0.45);
+}
+
+.blackout-nav-card__circle-arrow {
+  font-size: 1rem;
+  color: #f3f4f6;
+  font-weight: 700;
+  line-height: 1;
+  transition: transform 0.25s ease, color 0.25s ease;
+}
+
+.blackout-nav-card-wrap:hover .blackout-nav-card__circle-btn--amber {
+  background: rgba(245, 158, 11, 0.2);
+  border-color: #f59e0b;
+  box-shadow: 0 0 16px rgba(245, 158, 11, 0.6), inset 0 0 10px rgba(245, 158, 11, 0.2);
+}
+
+.blackout-nav-card-wrap:hover .blackout-nav-card__circle-btn--steel {
+  background: rgba(148, 163, 184, 0.2);
+  border-color: #94a3b8;
+  box-shadow: 0 0 16px rgba(148, 163, 184, 0.6), inset 0 0 10px rgba(148, 163, 184, 0.2);
+}
+
+.blackout-nav-card-wrap:hover .blackout-nav-card__circle-arrow {
+  transform: translateX(3px);
+  color: #ffffff;
+}
+
+/* Bottom Footer Trim: Barcode / Hazard Stripe & Number */
+.blackout-nav-card__trim {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  border-top: 1px solid rgba(255, 255, 255, 0.08);
+  padding-top: 0.45rem;
+  font-size: 0.65rem;
+  font-weight: 800;
+  color: #6b7280;
+  letter-spacing: 0.15em;
+  z-index: 2;
+}
+
+/* Barcode on Card 1 */
+.blackout-nav-card__barcode {
+  height: 10px;
+  width: 55px;
+  background: repeating-linear-gradient(
+    90deg,
+    #f59e0b,
+    #f59e0b 2px,
+    transparent 2px,
+    transparent 3.5px,
+    #f59e0b 3.5px,
+    #f59e0b 5px,
+    transparent 5px,
+    transparent 7px
+  );
+  opacity: 0.65;
+}
+
+/* Hazard Stripe on Card 3 */
+.blackout-nav-card__hazard-strip {
+  height: 8px;
+  width: 65px;
+  background: repeating-linear-gradient(
+    45deg,
+    #f59e0b,
+    #f59e0b 4px,
+    #14100b 4px,
+    #14100b 8px
+  );
+  opacity: 0.75;
+}
+
+/* Reduced Motion */
+@media (prefers-reduced-motion: reduce) {
+  .blackout-nav-card-wrap,
+  .blackout-nav-card__glint,
+  .blackout-nav-card__art-img,
+  .blackout-nav-card__circle-btn,
+  .blackout-nav-card__circle-arrow {
+    transition: none !important;
+    animation: none !important;
+    transform: none !important;
+  }
+}

@@ -1,0 +1,354 @@
+/* ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+   TACTICAL ACTION CARDS (HERO & FINALE)
+   BLACKOUT // GDGC PCCOE PUNE
+   ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ */
+
+.tac-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.85rem;
+  width: 100%;
+  max-width: 480px;
+  margin: 1.5rem auto 0 auto;
+  user-select: none;
+  z-index: 10;
+  box-sizing: border-box;
+}
+
+.tac-row-secondary {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 0.85rem;
+  width: 100%;
+  box-sizing: border-box;
+}
+
+@media (max-width: 520px) {
+  .tac-container {
+    max-width: 100%;
+    padding: 0 0.5rem;
+    gap: 0.75rem;
+  }
+
+  .tac-row-secondary {
+    grid-template-columns: 1fr;
+    gap: 0.75rem;
+  }
+}
+
+/* Base Card Structure */
+.tac-card {
+  position: relative;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  padding: 0.75rem 1rem;
+  background: rgba(14, 11, 8, 0.82);
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  border-radius: 3px;
+  cursor: pointer;
+  box-sizing: border-box;
+  text-align: left;
+  overflow: hidden;
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+  font-family: var(--font-mono, 'JetBrains Mono', monospace);
+}
+
+/* Tactical Corner Notches */
+.tac-card__notch {
+  position: absolute;
+  width: 6px;
+  height: 6px;
+  border-color: rgba(245, 158, 11, 0.4);
+  pointer-events: none;
+  transition: border-color 0.3s ease;
+}
+
+.tac-card__notch--tl {
+  top: 3px;
+  left: 3px;
+  border-top: 1.5px solid;
+  border-left: 1.5px solid;
+}
+
+.tac-card__notch--br {
+  bottom: 3px;
+  right: 3px;
+  border-bottom: 1.5px solid;
+  border-right: 1.5px solid;
+}
+
+.tac-card:hover .tac-card__notch {
+  border-color: #f59e0b;
+}
+
+/* Shimmer Glint Effect */
+.tac-card__glint {
+  position: absolute;
+  top: 0;
+  left: -120%;
+  width: 70%;
+  height: 100%;
+  background: linear-gradient(
+    90deg,
+    transparent,
+    rgba(255, 255, 255, 0.08),
+    transparent
+  );
+  transform: skewX(-20deg);
+  transition: left 0.7s ease;
+  pointer-events: none;
+}
+
+.tac-card:hover .tac-card__glint {
+  left: 140%;
+}
+
+/* Card Header (Meta & Badges) */
+.tac-card__header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 0.45rem;
+  font-size: 0.6rem;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  color: #9ca3af;
+  text-transform: uppercase;
+}
+
+.tac-card__badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+}
+
+.tac-card__led {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  display: inline-block;
+}
+
+.tac-card__led--amber {
+  background: #f59e0b;
+  box-shadow: 0 0 8px #f59e0b;
+}
+
+.tac-card__led--cyan {
+  background: #34d399;
+  box-shadow: 0 0 8px #34d399;
+}
+
+.tac-card__led--live {
+  background: #f59e0b;
+  box-shadow: 0 0 10px #f59e0b;
+  animation: tac-pulse-led 1.6s infinite ease-in-out;
+}
+
+@keyframes tac-pulse-led {
+  0%, 100% { opacity: 1; transform: scale(1); }
+  50% { opacity: 0.4; transform: scale(0.8); }
+}
+
+.tac-card__telemetry {
+  font-size: 0.58rem;
+  color: #6b7280;
+  letter-spacing: 0.08em;
+}
+
+.tac-card__icon {
+  font-size: 0.75rem;
+  color: #9ca3af;
+}
+
+/* Card Body */
+.tac-card__body {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 0.5rem;
+}
+
+.tac-card__title {
+  font-size: clamp(0.85rem, 1.1vw, 0.95rem);
+  font-weight: 800;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: #ffffff;
+  transition: color 0.25s ease;
+}
+
+.tac-card__cta {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+  font-size: 0.62rem;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  color: #9ca3af;
+  text-transform: uppercase;
+  white-space: nowrap;
+  transition: all 0.25s ease;
+}
+
+.tac-card__arrow {
+  font-size: 0.7rem;
+  transition: transform 0.25s ease;
+}
+
+.tac-card:hover .tac-card__arrow {
+  transform: translateX(3px);
+}
+
+/* ─────────────────────────────────────────────────────────────
+   CARD 1: ENTER THE STORY (Primary Hero Banner Card)
+   ───────────────────────────────────────────────────────────── */
+.tac-card--primary {
+  min-height: 72px;
+  background: rgba(18, 14, 9, 0.88);
+  border: 1px solid rgba(245, 158, 11, 0.42);
+  box-shadow:
+    0 4px 20px rgba(0, 0, 0, 0.6),
+    0 0 15px rgba(245, 158, 11, 0.1),
+    inset 0 0 15px rgba(245, 158, 11, 0.05);
+}
+
+.tac-card--primary .tac-card__title {
+  color: #f6c867;
+}
+
+.tac-card--primary:hover {
+  background: rgba(28, 20, 12, 0.95);
+  border-color: #f59e0b;
+  box-shadow:
+    0 8px 30px rgba(0, 0, 0, 0.8),
+    0 0 30px rgba(245, 158, 11, 0.35),
+    inset 0 0 20px rgba(245, 158, 11, 0.15);
+  transform: translateY(-2px);
+}
+
+.tac-card--primary:hover .tac-card__title {
+  color: #ffffff;
+  text-shadow: 0 0 10px rgba(245, 158, 11, 0.6);
+}
+
+.tac-card--primary:hover .tac-card__cta {
+  color: #f59e0b;
+}
+
+/* ─────────────────────────────────────────────────────────────
+   CARD 2: EVENT DETAILS (Secondary Tactical Intel Card)
+   ───────────────────────────────────────────────────────────── */
+.tac-card--details {
+  min-height: 68px;
+  background: rgba(12, 12, 12, 0.8);
+  border: 1px solid rgba(255, 255, 255, 0.14);
+}
+
+.tac-card--details:hover {
+  background: rgba(18, 22, 20, 0.92);
+  border-color: #34d399;
+  box-shadow:
+    0 6px 25px rgba(0, 0, 0, 0.7),
+    0 0 22px rgba(52, 211, 153, 0.25);
+  transform: translateY(-2px);
+}
+
+.tac-card--details:hover .tac-card__title {
+  color: #34d399;
+}
+
+.tac-card--details:hover .tac-card__cta {
+  color: #6ee7b7;
+}
+
+.tac-card--details:hover .tac-card__icon {
+  color: #34d399;
+}
+
+/* ─────────────────────────────────────────────────────────────
+   CARD 3: REGISTER (Creative Radiation Hazard Enlistment Card)
+   ───────────────────────────────────────────────────────────── */
+.tac-card--register {
+  min-height: 68px;
+  background: rgba(18, 14, 9, 0.85);
+  border: 1px solid rgba(245, 158, 11, 0.45);
+  box-shadow:
+    0 4px 18px rgba(0, 0, 0, 0.6),
+    0 0 12px rgba(245, 158, 11, 0.12);
+}
+
+.tac-card--register .tac-card__title {
+  color: #fbbf24;
+}
+
+.tac-card__hazard-icon {
+  color: #f59e0b;
+  font-size: 0.85rem;
+  line-height: 1;
+  text-shadow: 0 0 8px rgba(245, 158, 11, 0.6);
+  animation: tac-hazard-spin 8s linear infinite;
+  display: inline-block;
+}
+
+@keyframes tac-hazard-spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+
+.tac-card__hazard-text {
+  color: #f59e0b;
+  font-size: 0.85rem;
+  margin-left: 0.2rem;
+}
+
+/* Radiation hazard accent line at the bottom */
+.tac-card__hazard-strip {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: 2.5px;
+  background: repeating-linear-gradient(
+    45deg,
+    #f59e0b,
+    #f59e0b 5px,
+    #18120c 5px,
+    #18120c 10px
+  );
+  opacity: 0.75;
+  transition: opacity 0.3s ease, height 0.3s ease;
+}
+
+.tac-card--register:hover {
+  background: rgba(26, 18, 10, 0.95);
+  border-color: #f59e0b;
+  box-shadow:
+    0 6px 28px rgba(0, 0, 0, 0.8),
+    0 0 28px rgba(245, 158, 11, 0.45),
+    inset 0 0 16px rgba(245, 158, 11, 0.12);
+  transform: translateY(-2px);
+}
+
+.tac-card--register:hover .tac-card__title {
+  color: #ffffff;
+  text-shadow: 0 0 12px rgba(245, 158, 11, 0.7);
+}
+
+.tac-card--register:hover .tac-card__cta {
+  color: #f59e0b;
+}
+
+.tac-card--register:hover .tac-card__hazard-strip {
+  opacity: 1;
+  height: 3.5px;
+}
+
+.tac-card--register:hover .tac-card__notch {
+  border-color: #fbbf24;
+}

@@ -1,0 +1,14 @@
+{
+  "name": "send-registration-email",
+  "version": "1.0.0",
+  "description": "Appwrite Cloud Function for sending automated custom confirmation emails to BLACKOUT registered teams",
+  "main": "src/main.js",
+  "type": "module",
+  "scripts": {
+    "start": "node src/main.js"
+  },
+  "dependencies": {
+    "nodemailer": "^6.9.13",
+    "resend": "^3.2.0"
+  }
+}

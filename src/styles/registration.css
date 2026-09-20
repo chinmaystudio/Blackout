@@ -1,0 +1,580 @@
+/* ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+   MINIMALIST POST-APOCALYPTIC REGISTRATION THEME
+   GDGC PCCOE PUNE // BLACKOUT: FALLOUT
+   ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ */
+
+.reg-page {
+  position: relative;
+  min-height: 100vh;
+  width: 100%;
+  background-color: #080706;
+  background-image: 
+    linear-gradient(
+      to bottom,
+      rgba(8, 7, 6, 0.55) 0%,
+      rgba(14, 11, 9, 0.75) 40%,
+      rgba(6, 5, 4, 0.92) 100%
+    ),
+    url('/assets/branding/registration-bg.jpg');
+  background-size: cover;
+  background-position: center top;
+  background-attachment: fixed;
+  background-repeat: no-repeat;
+  color: #f3f4f6;
+  font-family: var(--font-mono, 'JetBrains Mono', 'Courier New', monospace);
+  padding: 1.5rem 1rem 4rem 1rem;
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  overflow-x: hidden;
+}
+
+@media (max-width: 768px) {
+  .reg-page {
+    background-attachment: scroll;
+    padding: 1rem 0.65rem 3rem 0.65rem;
+  }
+}
+
+/* Subtle atmosphere vignette */
+.reg-page__vignette {
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  background: radial-gradient(circle at 50% 30%, transparent 30%, rgba(0, 0, 0, 0.75) 90%);
+  z-index: 1;
+}
+
+/* Header Navigation Bar */
+.reg-nav {
+  position: relative;
+  z-index: 10;
+  width: 100%;
+  max-width: 580px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 1.5rem;
+  padding: 0.65rem 1rem;
+  background: rgba(14, 12, 10, 0.72);
+  border: 1px solid rgba(245, 158, 11, 0.28);
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.7);
+  border-radius: 4px;
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  box-sizing: border-box;
+}
+
+.reg-nav__back {
+  background: rgba(255, 255, 255, 0.04);
+  border: 1px solid rgba(245, 158, 11, 0.3);
+  color: #d1d5db;
+  font-family: inherit;
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  padding: 0.45rem 0.85rem;
+  min-height: 38px;
+  cursor: pointer;
+  border-radius: 3px;
+  transition: all 0.2s ease;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+}
+
+.reg-nav__back:hover,
+.reg-nav__back:focus-visible {
+  border-color: #f59e0b;
+  color: #f59e0b;
+  background: rgba(245, 158, 11, 0.15);
+  box-shadow: 0 0 12px rgba(245, 158, 11, 0.25);
+  outline: none;
+}
+
+.reg-nav__tag {
+  font-size: 0.68rem;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  color: #f59e0b;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.reg-nav__led {
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: #f59e0b;
+  box-shadow: 0 0 8px #f59e0b;
+  animation: reg-pulse 2s infinite ease-in-out;
+}
+
+@keyframes reg-pulse {
+  0%, 100% { opacity: 1; transform: scale(1); }
+  50% { opacity: 0.45; transform: scale(0.85); }
+}
+
+/* Minimalist Form Card */
+.reg-card {
+  position: relative;
+  z-index: 10;
+  width: 100%;
+  max-width: 580px;
+  background: rgba(13, 11, 9, 0.82);
+  border: 1px solid rgba(245, 158, 11, 0.38);
+  box-shadow:
+    0 25px 60px rgba(0, 0, 0, 0.9),
+    0 0 40px rgba(245, 158, 11, 0.12),
+    inset 0 0 30px rgba(0, 0, 0, 0.7);
+  border-radius: 6px;
+  padding: clamp(1.2rem, 3.5vw, 2.2rem);
+  box-sizing: border-box;
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+}
+
+/* Corner tactical brackets */
+.reg-card::before, .reg-card::after {
+  content: "";
+  position: absolute;
+  width: 12px;
+  height: 12px;
+  border-color: #f59e0b;
+  pointer-events: none;
+}
+.reg-card::before { top: 6px; left: 6px; border-top: 2px solid; border-left: 2px solid; }
+.reg-card::after { bottom: 6px; right: 6px; border-bottom: 2px solid; border-right: 2px solid; }
+
+/* Header matching the artwork */
+.reg-banner {
+  text-align: center;
+  margin-bottom: 1.8rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.reg-banner__logo {
+  max-width: 200px;
+  width: 65%;
+  height: auto;
+  margin-bottom: 0.6rem;
+  filter: drop-shadow(0 0 16px rgba(245, 158, 11, 0.35));
+}
+
+.reg-banner__title {
+  font-size: clamp(1.75rem, 5vw, 2.4rem);
+  font-weight: 900;
+  letter-spacing: 0.18em;
+  color: #f3f4f6;
+  margin: 0 0 0.4rem 0;
+  line-height: 1.1;
+  text-transform: uppercase;
+}
+
+.reg-banner__hazard-symbol {
+  color: #f59e0b;
+  text-shadow: 0 0 12px #f59e0b;
+  display: inline-block;
+  margin: 0 0.08em;
+}
+
+.reg-banner__rule-text {
+  font-size: clamp(0.72rem, 1.3vw, 0.82rem);
+  font-weight: 800;
+  letter-spacing: 0.22em;
+  color: #f59e0b;
+  text-transform: uppercase;
+  margin: 0 0 0.45rem 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+}
+
+.reg-banner__rule-text::before,
+.reg-banner__rule-text::after {
+  content: "—";
+  opacity: 0.6;
+}
+
+.reg-banner__sub {
+  font-size: clamp(0.68rem, 1.1vw, 0.76rem);
+  letter-spacing: 0.1em;
+  color: #9ca3af;
+  margin: 0 0 0.65rem 0;
+  max-width: 440px;
+  line-height: 1.45;
+}
+
+.reg-banner__hazard {
+  color: #f59e0b;
+  font-size: 0.95rem;
+  letter-spacing: 0.3em;
+  opacity: 0.85;
+}
+
+/* Minimalist Form Layout */
+.reg-form {
+  display: flex;
+  flex-direction: column;
+  gap: 1.15rem;
+}
+
+.reg-group {
+  display: flex;
+  flex-direction: column;
+  gap: 0.38rem;
+}
+
+.reg-group--grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 0.85rem;
+}
+
+@media (max-width: 540px) {
+  .reg-group--grid {
+    grid-template-columns: 1fr;
+    gap: 0.85rem;
+  }
+}
+
+.reg-label {
+  font-size: 0.68rem;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  color: #d1d5db;
+  text-transform: uppercase;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.reg-label span.req {
+  color: #f59e0b;
+  font-weight: 900;
+}
+
+.reg-label span.hint {
+  color: #9ca3af;
+  font-weight: normal;
+  font-size: 0.62rem;
+  letter-spacing: 0.05em;
+}
+
+.reg-input {
+  width: 100%;
+  box-sizing: border-box;
+  background: rgba(20, 16, 12, 0.85);
+  border: 1px solid rgba(255, 255, 255, 0.14);
+  border-bottom: 2px solid rgba(245, 158, 11, 0.55);
+  color: #ffffff;
+  font-family: inherit;
+  font-size: 16px; /* Critical mobile fix: prevents iOS Safari auto-zoom */
+  padding: 0.75rem 0.9rem;
+  min-height: 48px;
+  border-radius: 3px;
+  outline: none;
+  transition: all 0.25s ease;
+  -webkit-appearance: none;
+}
+
+.reg-input:focus {
+  border-color: rgba(245, 158, 11, 0.8);
+  border-bottom-color: #f59e0b;
+  background: rgba(26, 21, 15, 0.95);
+  box-shadow: 0 0 15px rgba(245, 158, 11, 0.28);
+}
+
+.reg-input::placeholder {
+  color: #6b7280;
+  font-size: 0.82rem;
+}
+
+/* Squad Size Selector (Strictly 2, 3, or 4 - NO SOLO) */
+.reg-team-size-row {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 0.55rem;
+}
+
+.reg-size-pill {
+  width: 100%;
+  padding: 0.65rem 0.4rem;
+  min-height: 46px;
+  background: rgba(255, 255, 255, 0.04);
+  border: 1px solid rgba(255, 255, 255, 0.14);
+  color: #9ca3af;
+  font-family: inherit;
+  font-size: 0.72rem;
+  font-weight: 800;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  cursor: pointer;
+  border-radius: 3px;
+  transition: all 0.2s ease;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  box-sizing: border-box;
+}
+
+.reg-size-pill:hover {
+  background: rgba(255, 255, 255, 0.08);
+  color: #fff;
+  border-color: rgba(255, 255, 255, 0.25);
+}
+
+.reg-size-pill--active {
+  background: rgba(245, 158, 11, 0.22) !important;
+  border-color: #f59e0b !important;
+  color: #f59e0b !important;
+  box-shadow: 0 0 14px rgba(245, 158, 11, 0.3);
+}
+
+/* Squad Companion Roster Section */
+.reg-teammates {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+  margin-top: 0.4rem;
+  padding-top: 0.9rem;
+  border-top: 1px dashed rgba(245, 158, 11, 0.28);
+}
+
+.reg-teammates__header {
+  font-size: 0.68rem;
+  font-weight: 800;
+  letter-spacing: 0.14em;
+  color: #f59e0b;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.reg-teammate-card {
+  background: rgba(20, 16, 12, 0.65);
+  border: 1px solid rgba(255, 255, 255, 0.09);
+  padding: 0.8rem;
+  border-radius: 4px;
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.reg-teammate-card__title {
+  font-size: 0.62rem;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  color: #fbbf24;
+  text-transform: uppercase;
+}
+
+.reg-teammate-card__grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 0.65rem;
+}
+
+@media (max-width: 540px) {
+  .reg-teammate-card__grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* Submit Action Button */
+.reg-btn-submit {
+  width: 100%;
+  margin-top: 0.75rem;
+  padding: 0.95rem 1.25rem;
+  min-height: 52px;
+  background: linear-gradient(135deg, rgba(245, 158, 11, 0.38) 0%, rgba(217, 119, 6, 0.22) 100%);
+  border: 1px solid #f59e0b;
+  color: #ffffff;
+  font-family: inherit;
+  font-size: 0.85rem;
+  font-weight: 900;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  cursor: pointer;
+  border-radius: 3px;
+  box-shadow:
+    0 0 25px rgba(245, 158, 11, 0.32),
+    inset 0 0 15px rgba(245, 158, 11, 0.12);
+  transition: all 0.25s ease;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  box-sizing: border-box;
+}
+
+.reg-btn-submit:hover:not(:disabled) {
+  background: linear-gradient(135deg, rgba(245, 158, 11, 0.55) 0%, rgba(217, 119, 6, 0.35) 100%);
+  box-shadow:
+    0 0 35px rgba(245, 158, 11, 0.55),
+    inset 0 0 20px rgba(245, 158, 11, 0.25);
+  transform: translateY(-2px);
+}
+
+.reg-btn-submit:active:not(:disabled) {
+  transform: translateY(0);
+}
+
+.reg-btn-submit:disabled {
+  opacity: 0.55;
+  cursor: not-allowed;
+  border-color: #6b7280;
+  color: #9ca3af;
+  box-shadow: none;
+}
+
+/* Status Footnote */
+.reg-status-note {
+  text-align: center;
+  font-size: 0.65rem;
+  letter-spacing: 0.08em;
+  color: #9ca3af;
+  margin-top: 0.5rem;
+}
+
+/* Error Banner */
+.reg-error-box {
+  background: rgba(220, 38, 38, 0.18);
+  border: 1px solid #ef4444;
+  color: #fca5a5;
+  padding: 0.75rem 0.9rem;
+  border-radius: 3px;
+  font-size: 0.74rem;
+  letter-spacing: 0.05em;
+  line-height: 1.45;
+  margin-bottom: 0.5rem;
+}
+
+/* Clearance Pass Card (Success State) */
+.reg-clearance-wrap {
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1.25rem;
+  width: 100%;
+}
+
+.reg-clearance-badge {
+  width: 100%;
+  background: rgba(18, 14, 10, 0.88);
+  border: 2px solid #f59e0b;
+  box-shadow:
+    0 0 35px rgba(245, 158, 11, 0.3),
+    inset 0 0 25px rgba(245, 158, 11, 0.1);
+  padding: clamp(1.2rem, 3.5vw, 1.8rem);
+  border-radius: 4px;
+  text-align: left;
+  box-sizing: border-box;
+}
+
+.reg-clearance-top {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border-bottom: 1px solid rgba(245, 158, 11, 0.35);
+  padding-bottom: 0.65rem;
+  margin-bottom: 1rem;
+}
+
+.reg-clearance-status {
+  font-size: 0.68rem;
+  font-weight: 800;
+  letter-spacing: 0.16em;
+  color: #f59e0b;
+}
+
+.reg-clearance-label {
+  font-size: 0.65rem;
+  letter-spacing: 0.14em;
+  color: #9ca3af;
+  text-transform: uppercase;
+}
+
+.reg-clearance-token {
+  font-size: clamp(1.4rem, 4vw, 1.85rem);
+  font-weight: 900;
+  letter-spacing: 0.2em;
+  color: #f59e0b;
+  text-shadow: 0 0 16px rgba(245, 158, 11, 0.55);
+  margin: 0.35rem 0 1rem 0;
+}
+
+.reg-clearance-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 0.85rem;
+  font-size: 0.78rem;
+  border-bottom: 1px solid rgba(245, 158, 11, 0.25);
+  padding-bottom: 1rem;
+  margin-bottom: 1rem;
+}
+
+@media (max-width: 480px) {
+  .reg-clearance-grid {
+    grid-template-columns: 1fr;
+    gap: 0.65rem;
+  }
+}
+
+.reg-clearance-key {
+  font-size: 0.62rem;
+  color: #9ca3af;
+  display: block;
+  letter-spacing: 0.08em;
+  margin-bottom: 0.15rem;
+}
+
+.reg-clearance-val {
+  font-weight: bold;
+  color: #ffffff;
+  letter-spacing: 0.05em;
+}
+
+.reg-clearance-barcode {
+  height: 26px;
+  background: repeating-linear-gradient(
+    90deg,
+    #f59e0b,
+    #f59e0b 2px,
+    transparent 2px,
+    transparent 4px,
+    #f59e0b 4px,
+    #f59e0b 6px,
+    transparent 6px,
+    transparent 8px
+  );
+  opacity: 0.75;
+  margin-bottom: 0.85rem;
+}
+
+.reg-clearance-footer {
+  display: flex;
+  justify-content: space-between;
+  font-size: 0.6rem;
+  color: #6b7280;
+  letter-spacing: 0.1em;
+}
+
+.reg-clearance-btns {
+  display: flex;
+  gap: 0.85rem;
+  width: 100%;
+}
+
+@media (max-width: 480px) {
+  .reg-clearance-btns {
+    flex-direction: column;
+  }
+}

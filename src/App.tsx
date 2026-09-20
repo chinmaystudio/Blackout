@@ -7,6 +7,10 @@ import NoiseOverlay from './components/NoiseOverlay';
 import FireSparks from './components/FireSparks';
 import SceneLabel from './components/SceneLabel';
 import ProgressIndicator from './components/ProgressIndicator';
+import RadioAudioPlayer, { type RadioAudioPlayerHandle } from './components/RadioAudioPlayer';
+import EventDetailsModal from './components/EventDetailsModal';
+import RegistrationPage from './pages/RegistrationPage';
+import BlackoutNavCards from './components/BlackoutNavCards';
 import { scenes, heliosTerminal, mysteryBoard, finale as finaleData } from './data/story';
 import type { StoryImage, StoryLine } from './data/story';
 
@@ -18,12 +22,48 @@ import './styles/components.css';
 gsap.registerPlugin(ScrollTrigger);
 
 function App() {
+  const [currentRoute, setCurrentRoute] = useState<'story' | 'register'>(() => {
+    return window.location.hash === '#/register' ? 'register' : 'story';
+  });
+  const [isDetailsOpen, setIsDetailsOpen] = useState(false);
   const [currentScene, setCurrentScene] = useState('');
   const [uiVisible, setUiVisible] = useState(false);
   const appRef = useRef<HTMLDivElement>(null);
   const whiteFlashRef = useRef<HTMLDivElement>(null);
+  const radioAudioRef = useRef<RadioAudioPlayerHandle>(null);
+  const videoRef = useRef<HTMLVideoElement | null>(null);
 
   const activeSceneIndex = scenes.findIndex(s => s.number === currentScene);
+
+  useEffect(() => {
+    const handleHash = () => {
+      if (window.location.hash === '#/register') {
+        setCurrentRoute('register');
+      } else if (window.location.hash === '#/details') {
+        setIsDetailsOpen(true);
+        setCurrentRoute('story');
+      } else {
+        setCurrentRoute('story');
+      }
+    };
+    window.addEventListener('hashchange', handleHash);
+    return () => window.removeEventListener('hashchange', handleHash);
+  }, []);
+
+  const navigateToRegister = () => {
+    window.location.hash = '#/register';
+    setCurrentRoute('register');
+    window.scrollTo({ top: 0, behavior: 'instant' });
+  };
+
+  const navigateToStory = () => {
+    window.location.hash = '';
+    setCurrentRoute('story');
+    window.scrollTo({ top: 0, behavior: 'instant' });
+    setTimeout(() => {
+      ScrollTrigger.refresh();
+    }, 150);
+  };
 
   const setupScrollAnimations = useCallback(() => {
     ScrollTrigger.getAll().forEach(t => t.kill());
@@ -115,13 +155,25 @@ function App() {
           anticipatePin: 1,
           onEnter: () => setCurrentScene(sceneId),
           onEnterBack: () => setCurrentScene(sceneId),
+          onLeave: () => {
+            // Pause video when scrolling down past scene
+            const vid = wrap.querySelector('video');
+            if (vid) vid.pause();
+          },
+          onLeaveBack: () => {
+            // Pause video when scrolling up past scene
+            const vid = wrap.querySelector('video');
+            if (vid) vid.pause();
+          },
         },
       });
 
-      // Initialize all panels (Panel 0 visible at x: 0, other panels at x: 100%)
+      // Initialize all panels (Panel 0 visible at x: 0, video panel at y: 100%, others at x: 100%)
       panels.forEach((p, idx) => {
+        const isVideoPanel = p.classList.contains('image-panel--video') || !!p.querySelector('video');
         gsap.set(p, {
-          x: idx === 0 ? '0%' : '100%',
+          x: idx === 0 ? '0%' : (isVideoPanel ? '0%' : '100%'),
+          y: isVideoPanel && idx > 0 ? '100%' : '0%',
           opacity: 1,
           filter: 'brightness(1)',
         });
@@ -139,42 +191,92 @@ function App() {
         tl.fromTo(firstImg, { scale: 1.04 }, { scale: 1.0, duration: 0.8, ease: 'none' }, 0);
       }
 
-      // Subsequent panels — smooth overlapping slide from right
+      // Subsequent panels — smooth overlapping slide
       for (let i = 1; i < numPanels; i++) {
         const panel = panels[i] as HTMLElement;
         const prevPanel = panels[i - 1] as HTMLElement;
         const img = panel.querySelector('.image-panel__image') as HTMLElement;
         const label = `panel-${i}`;
 
-        // Panel i slides in from right (100% solid, opaque, casting shadow over previous panel)
-        tl.to(panel, { x: '0%', duration: 1.0, ease: 'power1.inOut' }, label);
+        const isVideoPanel = panel.classList.contains('image-panel--video') || !!panel.querySelector('video');
+        const prevIsVideo = prevPanel.classList.contains('image-panel--video') || !!prevPanel.querySelector('video');
 
-        // Previous panel subtly pushes back and dims for cinematic depth
-        tl.to(prevPanel, { x: '-6%', filter: 'brightness(0.35)', duration: 1.0, ease: 'power1.inOut' }, label);
+        if (isVideoPanel) {
+          const flashRef = whiteFlashRef.current;
+
+          // 1. WHITE FLASH HITS FIRST BEFORE THE VIDEO ENTERS
+          if (flashRef) {
+            tl.to(flashRef, { opacity: 0.9, duration: 0.12, ease: 'power2.in' }, label);
+
+            // AUDIO AUTOMATICALLY STARTS AT THE EXACT MOMENT THE WHITE FLASH HITS!
+            tl.call(() => {
+              if (!tl.scrollTrigger || tl.scrollTrigger.direction === 1) {
+                radioAudioRef.current?.playDetonationTrack();
+              }
+            }, [], label);
+
+            tl.to(flashRef, { opacity: 0, duration: 0.3, ease: 'power2.out' }, `${label}+=0.12`);
+          } else {
+            tl.call(() => {
+              if (!tl.scrollTrigger || tl.scrollTrigger.direction === 1) {
+                radioAudioRef.current?.playDetonationTrack();
+              }
+            }, [], label);
+          }
+
+          // 2. Video panel slides in smoothly from bottom right out of the flash
+          tl.to(panel, { y: '0%', x: '0%', duration: 1.0, ease: 'power1.inOut' }, `${label}+=0.08`);
+          tl.to(prevPanel, { y: '-10%', filter: 'brightness(0.35)', duration: 1.0, ease: 'power1.inOut' }, `${label}+=0.08`);
+
+          // Video starts playing as it emerges from the detonation flash
+          tl.call(() => {
+            const vid = panel.querySelector('video');
+            if (!tl.scrollTrigger || tl.scrollTrigger.direction === 1) {
+              if (vid) {
+                vid.play().catch(() => {});
+              }
+            } else if (tl.scrollTrigger && tl.scrollTrigger.direction === -1) {
+              if (vid) vid.pause();
+            }
+          }, [], `${label}+=0.08`);
+        } else if (prevIsVideo) {
+          // Panel following video slides in from right smoothly
+          tl.to(panel, { x: '0%', y: '0%', duration: 1.0, ease: 'power1.inOut' }, label);
+          tl.to(prevPanel, { x: '-6%', filter: 'brightness(0.35)', duration: 1.0, ease: 'power1.inOut' }, label);
+
+          // Swiping down past video: PAUSE VIDEO (GPU OPTIMIZATION), KEEP AUDIO PLAYING IN BACKGROUND!
+          tl.call(() => {
+            const vid = prevPanel.querySelector('video');
+            if (!tl.scrollTrigger || tl.scrollTrigger.direction === 1) {
+              if (vid) vid.pause();
+            } else if (tl.scrollTrigger && tl.scrollTrigger.direction === -1) {
+              if (vid) {
+                vid.play().catch(() => {});
+              }
+            }
+          }, [], label);
+        } else {
+          // Standard horizontal panel slide
+          tl.to(panel, { x: '0%', y: '0%', duration: 1.0, ease: 'power1.inOut' }, label);
+          tl.to(prevPanel, { x: '-6%', filter: 'brightness(0.35)', duration: 1.0, ease: 'power1.inOut' }, label);
+        }
 
         // Image gentle continuous scale
         if (img) {
           tl.fromTo(img, { scale: 1.04 }, { scale: 1.0, duration: 1.0, ease: 'none' }, label);
         }
 
-        // Scene special effect: white flash on "THE SKY TURNS WHITE"
+        // Scene special effect: crisp, self-reversing cinematic white flash on detonation (for non-video panels if any)
         const sceneData = scenes.find((s) => s.number === sceneId);
         const imageData = sceneData?.images[i];
-        if (imageData?.effect === 'flash' && whiteFlashRef.current) {
+        if (imageData?.effect === 'flash' && whiteFlashRef.current && !isVideoPanel) {
           const flashRef = whiteFlashRef.current;
-          tl.to(
-            flashRef,
-            {
-              opacity: 0.95,
-              duration: 0.12,
-              onComplete: () => {
-                gsap.to(flashRef, { opacity: 0, duration: 0.8, ease: 'power3.out' });
-              },
-            },
-            `${label}+=0.3`
-          );
+          tl.to(flashRef, { opacity: 0.75, duration: 0.08, ease: 'power2.in' }, `${label}+=0.15`)
+            .to(flashRef, { opacity: 0, duration: 0.22, ease: 'power2.out' }, `${label}+=0.23`);
         }
       }
+
+
 
       // Final gentle continuous drift on last panel before unpinning
       const lastPanel = panels[numPanels - 1] as HTMLElement;
@@ -355,21 +457,49 @@ function App() {
   }
 
   function renderImagePanel(image: StoryImage, index: number, sceneNum: string) {
+    const isVideo = !!image.videoSrc;
     return (
       <div
-        className="image-panel"
+        className={`image-panel ${isVideo ? 'image-panel--video' : ''}`}
         key={index}
         style={{ zIndex: index + 1 }}
       >
         <div className="image-panel__image-container">
-          <img
-            className="image-panel__image"
-            src={image.src}
-            alt={image.alt}
-            loading="eager"
-            decoding="async"
-            draggable={false}
-          />
+          {image.videoSrc ? (
+            <div className="image-panel__video-wrap">
+              <video
+                ref={(el) => {
+                  videoRef.current = el;
+                  if (el) {
+                    el.muted = true;
+                    el.playsInline = true;
+                    // Ensure video does NOT play prematurely at page load; only plays when scrolled into view
+                    if (el.currentTime === 0 && !el.paused) {
+                      el.pause();
+                    }
+                  }
+                }}
+                className="image-panel__image image-panel__video"
+                src={image.videoSrc}
+                muted
+                loop
+                playsInline
+                preload="auto"
+                onPlay={() => {
+                  radioAudioRef.current?.playDetonationTrack();
+                }}
+              />
+            </div>
+          ) : (
+            <img
+              className="image-panel__image"
+              src={image.src}
+              alt={image.alt}
+              loading="eager"
+              decoding="async"
+              draggable={false}
+            />
+          )}
           <div className="image-panel__vignette" />
         </div>
 
@@ -424,6 +554,10 @@ function App() {
     );
   }
 
+  if (currentRoute === 'register') {
+    return <RegistrationPage onReturnToStory={navigateToStory} />;
+  }
+
   return (
     <div className="app" ref={appRef}>
       {/* Global overlays */}
@@ -436,11 +570,30 @@ function App() {
         visible={uiVisible}
       />
       <div className="white-flash" ref={whiteFlashRef} />
+      <RadioAudioPlayer ref={radioAudioRef} />
+
+      {/* Event Details Dossier Modal */}
+      <EventDetailsModal
+        isOpen={isDetailsOpen}
+        onClose={() => setIsDetailsOpen(false)}
+        onRegister={navigateToRegister}
+      />
 
       {/* ════════════════════════════
          HERO
          ════════════════════════════ */}
-      <Hero />
+      <Hero
+        onEnterStory={() => {
+          const s1 = document.querySelector('#scene-01');
+          if (s1) {
+            s1.scrollIntoView({ behavior: 'smooth' });
+          } else {
+            window.scrollBy({ top: window.innerHeight * 0.9, behavior: 'smooth' });
+          }
+        }}
+        onOpenDetails={() => setIsDetailsOpen(true)}
+        onRegister={navigateToRegister}
+      />
 
       {/* ════════════════════════════
          SCENES
@@ -582,17 +735,20 @@ function App() {
             <div className="finale__subtitle">{finaleData.cta.subtitle}</div>
           </div>
 
-          <div className="finale__cta-area finale__animated">
-            <button className="finale__btn" id="cta-enter">
-              {finaleData.cta.primaryButton}
-            </button>
-            <div className="finale__btn-group">
-              {finaleData.cta.secondaryButtons.map((btn, i) => (
-                <button key={i} className="finale__btn finale__btn--secondary" id={`cta-${btn.toLowerCase().replace(/\s/g, '-')}`}>
-                  {btn}
-                </button>
-              ))}
-            </div>
+          <div className="finale__cta-area finale__animated" style={{ width: '100%', maxWidth: '860px', margin: '3rem auto 0 auto' }}>
+            <BlackoutNavCards
+              onEnterStory={() => {
+                const s1 = document.querySelector('#scene-01');
+                if (s1) {
+                  s1.scrollIntoView({ behavior: 'smooth' });
+                } else {
+                  window.scrollTo({ top: 0, behavior: 'smooth' });
+                }
+              }}
+              onOpenDetails={() => setIsDetailsOpen(true)}
+              onRegister={navigateToRegister}
+              variant="finale"
+            />
           </div>
         </div>
       </section>
