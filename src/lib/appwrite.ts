@@ -159,6 +159,28 @@ export async function submitRegistration(
         payload
       );
 
+      // 5. Dispatch Clearance Email via SMTP endpoint
+      try {
+        fetch('/api/send-confirmation', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            cellName: payload.cellName,
+            leadName: payload.leadName,
+            leadEmail: payload.leadEmail,
+            leadPhone: payload.leadPhone,
+            leadCollege: payload.leadCollege,
+            teamSize: payload.teamSize,
+            members: sanitizedMembers,
+            clearanceToken,
+          }),
+        }).catch((e) => {
+          console.warn('[SMTP Dispatch Warning] Failed to trigger email endpoint:', e);
+        });
+      } catch (emailErr) {
+        console.warn('[SMTP Dispatch Notice] Non-blocking email dispatch error:', emailErr);
+      }
+
       return {
         success: true,
         clearanceToken,
