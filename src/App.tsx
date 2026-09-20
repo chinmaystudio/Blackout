@@ -69,34 +69,48 @@ function App() {
     ScrollTrigger.getAll().forEach(t => t.kill());
 
     // ═══════════════════════════════
-    // HERO — Pin + scroll exit
+    // HERO — Responsive Exit & UI Trigger
     // ═══════════════════════════════
     const heroSection = document.querySelector('#hero') as HTMLElement;
     if (heroSection) {
-      ScrollTrigger.create({
-        trigger: heroSection,
-        start: 'top top',
-        end: '+=50%',
-        pin: true,
-        pinSpacing: true,
-        onLeave: () => setUiVisible(true),
-        onEnterBack: () => {
-          setUiVisible(false);
-          setCurrentScene('');
-        },
-      });
-
-      gsap.to('.hero__content', {
-        scrollTrigger: {
+      if (window.innerWidth > 860) {
+        // Desktop: Pin hero and scrub scale/opacity exit
+        ScrollTrigger.create({
           trigger: heroSection,
           start: 'top top',
           end: '+=50%',
-          scrub: 0.5,
-        },
-        scale: 1.1,
-        y: -40,
-        opacity: 0,
-      });
+          pin: true,
+          pinSpacing: true,
+          onLeave: () => setUiVisible(true),
+          onEnterBack: () => {
+            setUiVisible(false);
+            setCurrentScene('');
+          },
+        });
+
+        gsap.to('.hero__content', {
+          scrollTrigger: {
+            trigger: heroSection,
+            start: 'top top',
+            end: '+=50%',
+            scrub: 0.5,
+          },
+          scale: 1.1,
+          y: -40,
+          opacity: 0,
+        });
+      } else {
+        // Mobile: Allow natural vertical scroll through all 3 cards without pinning
+        ScrollTrigger.create({
+          trigger: heroSection,
+          start: 'bottom 80%',
+          onLeave: () => setUiVisible(true),
+          onEnterBack: () => {
+            setUiVisible(false);
+            setCurrentScene('');
+          },
+        });
+      }
     }
 
     // ═══════════════════════════════
@@ -429,7 +443,9 @@ function App() {
     let resizeTimer: ReturnType<typeof setTimeout>;
     const handleResize = () => {
       clearTimeout(resizeTimer);
-      resizeTimer = setTimeout(() => ScrollTrigger.refresh(), 250);
+      resizeTimer = setTimeout(() => {
+        setupScrollAnimations();
+      }, 200);
     };
     window.addEventListener('resize', handleResize);
 

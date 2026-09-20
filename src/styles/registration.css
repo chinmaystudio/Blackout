@@ -236,7 +236,7 @@
   gap: 0.85rem;
 }
 
-@media (max-width: 540px) {
+@media (max-width: 640px) {
   .reg-group--grid {
     grid-template-columns: 1fr;
     gap: 0.85rem;
@@ -381,7 +381,7 @@
   gap: 0.65rem;
 }
 
-@media (max-width: 540px) {
+@media (max-width: 640px) {
   .reg-teammate-card__grid {
     grid-template-columns: 1fr;
   }
@@ -521,7 +521,7 @@
   margin-bottom: 1rem;
 }
 
-@media (max-width: 480px) {
+@media (max-width: 640px) {
   .reg-clearance-grid {
     grid-template-columns: 1fr;
     gap: 0.65rem;
@@ -573,7 +573,7 @@
   width: 100%;
 }
 
-@media (max-width: 480px) {
+@media (max-width: 640px) {
   .reg-clearance-btns {
     flex-direction: column;
   }
